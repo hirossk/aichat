@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>flaskの動作確認</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/talk.css') }}" />
+</head>
+
+<body>
+    <div class="talk message">
+        <div class="name">
+            女の子
+        </div>
+        <div class="bubble left">
+            <img class="lefticon" src="/static/images/girl.png" alt="">LINE風です。
+        </div>
+        <div class="bubble left">
+            続けて喋るとフキダシのしっぽはつきません。
+        </div>
+        <div class="bubble right">
+            HTMLとCSSでできます。<img class="righticon" src="/static/images/boy.png" alt="">
+        </div>
+        <br><!-- 次のフキダシにしっぽをつけたいときはbrを挿入 -->
+        <div class="bubble right">
+            続けても、しっぽをつけたいときは間にbrを入れます。
+        </div>
+        <div class="bubble left">
+            <img class="lefticon" src="/static/images/girl.png" alt="">グループじゃないとき。
+        </div>
+    </div>
+</body>
+
+</html>
