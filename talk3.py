@@ -4,6 +4,7 @@ import csv
 
 app = Flask(__name__, static_folder="./static/")
     
+# CSVファイルを使って辞書のリストを作成する関数
 def create_talk():
     listdata = []
     filename = 'message.csv'
@@ -32,13 +33,18 @@ def create_talk():
         ]
     return listdata
 
+# URLアクセスのパス指定すると次に記述している関数が呼び出される
 @app.route('/')
 def display():
+    # Jinjaテンプレートによる展開が行われる
     return render_template('talk/talk0.html')
 
+# '/'URLに数値を指定すると呼び出される関数定義
 @app.route('/<int:id>')
 def loopmessage(id):
+    # create_talk関数の呼び出し
     talks = create_talk()
+    # Jinjaテンプレートによる展開が行われる（talksはhtml内で利用される）
     return render_template('talk/talk' + str(id) + '.html',talks = talks)
     
     return html

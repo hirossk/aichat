@@ -10,12 +10,10 @@ sio = SocketIO(app)  # socketを初期化
 def ping(data):
     print(data)
     emit("pong", str(time.time()))
- 
 
 @app.route("/")  # これはただのFlaskエンドポイント
 def index():
     return render_template('websocket/websocket.html') 
  
- 
 if __name__ =="__main__":
-    sio.run(app, host="0.0.0.0", port=5001)
+    sio.run(app, host="0.0.0.0", port=80)
