@@ -4,7 +4,7 @@ app = Flask(__name__, static_folder="./static/")
 
 @app.route('/')
 def display():
-    return render_template('form.html')
+    return render_template('upload/form.html')
 
 @app.route("/upload",methods=["POST"])
 def upload():

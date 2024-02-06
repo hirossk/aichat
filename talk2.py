@@ -18,12 +18,12 @@ def create_talk():
 
 @app.route('/')
 def display():
-    return render_template('talk0.html')
+    return render_template('talk/talk0.html')
 
 @app.route('/<int:id>')
 def loopmessage(id):
     talks = create_talk()
-    return render_template('talk' + str(id) + '.html',talks = talks)
+    return render_template('talk/talk' + str(id) + '.html',talks = talks)
     
     return html
 

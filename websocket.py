@@ -14,7 +14,7 @@ def ping(data):
 
 @app.route("/")  # これはただのFlaskエンドポイント
 def index():
-    return render_template('websocket.html') 
+    return render_template('websocket/websocket.html') 
  
  
 if __name__ =="__main__":
