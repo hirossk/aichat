@@ -10,7 +10,8 @@ def login_check():
         return False
 
 @app.route('/')
-def login():
+def loginform():
+    session['test'] = 'セッションにテストデータ格納'
     return render_template('transition/01login.html')
 
 @app.route('/confirm',methods=["POST"])
@@ -28,7 +29,12 @@ def link1():
 @app.route('/link2')
 def link2():
     if(login_check() == True):
-        return render_template('transition/01link2.html')
+        send_data = {
+            'key1' : 999,
+            'key2' : 'Moji',
+            'key3' : '2024-2-29'
+        }
+        return render_template('transition/01link2.html',data = send_data)
     else:
         return redirect("/")
 
