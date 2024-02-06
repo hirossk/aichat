@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>flaskの動作確認</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/talk.css') }}" />
+    <!-- websocketを利用するための読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/websocket.js') }}"></script>
+</head>
+
+<body>
+    <button type="button" onclick="ping();"> Ping </button>
+    <div id="log"></div>
+</body>
+
+</html>

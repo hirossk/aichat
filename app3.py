@@ -1,5 +1,5 @@
-from flask import Flask,render_template,request
-from PIL import Image, ImageDraw
+from flask import Flask,render_template
+from PIL import Image
 import csv
 
 app = Flask(__name__, static_folder="./static/")
