@@ -1,8 +1,9 @@
 from flask import Flask,render_template,session,redirect
+import os
 
 app = Flask(__name__, static_folder="./static/")
 # セッションを使うための初期値を与える
-app.secret_key = 'user'
+app.secret_key = os.urandom(24)
 
 # ログイン状態を確認するための関数[flask_login]を使う方法は昨日が多い
 def login_check():

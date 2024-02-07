@@ -13,10 +13,6 @@ def display():
 @app.route("/commit",methods=["POST"])
 def commit():
     conn = db_connect()
-    # for key,value in request.form.items():
-    #     print(key + ":" + value)    
-    # if "name" in request.form:
-    #     print("name is realize")
     db_insert(conn,request.form['name'],request.form['address'])
     datalist = db_select(conn)    
     db_close(conn)
