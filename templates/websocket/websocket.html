@@ -11,7 +11,16 @@
 </head>
 
 <body>
-    <button type="button" onclick="ping();"> Ping </button>
+    <h1>Flask-SocketIO Test</h1>
+    <h2>送信:</h2>
+    
+        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+        <input type="button" onclick="my_event();" value="エコー"><br>
+
+        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+        <input type="button" onclick="my_broadcast_event();" value="ブロードキャスト">
+    
+    <h2>受信:</h2>
     <div id="log"></div>
 </body>
 
