@@ -13,6 +13,9 @@ step1
   ⅳ．sqlitedb.pyによるデータベースアクセス
   ⅴ．その他もろもろ
 step2
+  sqlite3の使い方
+  https://funatsu-lab.github.io/open-course-ware/resource/sqlite3/
+step3
   Webサービスの作り方
   ⅰ．画面の形と遷移のみ作ろう
   ⅱ．データベースを作ろう
