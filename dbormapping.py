@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker,declarative_base
 
 # SQLiteデータベースに接続する
 # echo=TrueでデータベースアクセスのSQL文がエコーバックされる
