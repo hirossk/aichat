@@ -7,8 +7,8 @@ step0
   venv環境の構築
 step1
   リポジトリflasklogicの説明
-  ⅰ．transition.pyによる画面とデータ（session含む）の関係性
-  ⅱ．loginapp.pyによるログイン処理とフォーム入力
+  ⅰ．transition1.py,transition2.pyによる画面とデータ（session含む）の関係性
+  ⅱ．loginapp1.pyによるログイン処理とフォーム入力
   ⅲ．fileupload.pyにるデータ送信
   ⅳ．sqlitedb.pyによるデータベースアクセス
   ⅴ．その他もろもろ

@@ -5,7 +5,9 @@ app = Flask(__name__, static_folder="./static/")
 # セッションを使うための初期値を与える
 app.secret_key = os.urandom(24)
 
-# ログイン状態を確認するための関数[flask_login]を使う方法は昨日が多い
+# ログインチェック有りのパターン
+
+# ログイン状態を確認するための関数[flask_login]を使う方法は機能が多い
 def login_check():
     if (session.get('logoned') == True):
         return True
@@ -27,6 +29,20 @@ def confirm():
     session['logoned'] = True
     # トップページを表示する
     return render_template('transition/01toppage.html')
+
+@app.route('/logout')
+def logout():
+    # ログアウト（セッションデータ更新）後'/'にリダイレクトする
+    session['logoned'] = False
+    return redirect("/")
+    
+@app.route('/toppage')
+def toppage():
+    # ログインで来ていなければ'/'にリダイレクトする
+    if(login_check() == True):
+        return render_template('transition/01toppage.html')
+    else:
+        return redirect("/")
 
 @app.route('/link1')
 def link1():

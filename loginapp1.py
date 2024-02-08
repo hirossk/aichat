@@ -1,5 +1,5 @@
-from flask import Flask,request,redirect,url_for,render_template
-from flask_login import UserMixin,LoginManager,current_user,login_user,login_required,logout_user
+from flask import Flask,request,redirect,render_template
+from flask_login import UserMixin,LoginManager,login_user,login_required,logout_user
 from dblogin import db_connect,db_initialize,db_check_login
 import os
 
@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # flask_loginを利用したサンプル
+# login管理の初期化
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -45,7 +46,7 @@ def login():
         user = User(username)
         login_user(user)
         # protectedのURLを呼び出す
-        return redirect(url_for("protected"))
+        return redirect("protected")
 
     # ユーザーIDとパスワードが一致しなかった場合はログインへ戻る
     return render_template('login/login.html',message = 'ログインできません')
