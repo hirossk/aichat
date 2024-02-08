@@ -1,11 +1,12 @@
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
+import os
 
 async_mode = None
 
 app = Flask(__name__)
 # セッションを利用する場合は必須
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = os.urandom(24)
 # websocketを使う通信のsocketioを生成
 socketio = SocketIO(app)
 
