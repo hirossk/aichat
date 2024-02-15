@@ -25,6 +25,8 @@ def loginform():
 @app.route('/confirm',methods=["POST"])
 def confirm():
     # パスワードチェックしていないため必ずログインできる
+    # request.args.get('key')はGETメソッドの時
+    # request.form.get('key')はPOSTメソッドの時
     # 本当はパスワードチェックすべき
     session['logoned'] = True
     # トップページを表示する
