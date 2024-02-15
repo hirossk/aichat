@@ -12,7 +12,7 @@ step1
   ⅱ．loginapp1.pyによるログイン処理とフォーム入力
   ⅲ．fileupload.pyにるデータ送信
   ⅳ．sqlitedb.pyによるデータベースアクセス
-  ⅴ．その他もろもろ
+  ⅴ．ajax.pyによるAjax通信
 step2
   sqlite3の使い方
   https://funatsu-lab.github.io/open-course-ware/resource/sqlite3/

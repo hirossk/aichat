@@ -1,0 +1,23 @@
+<script>
+    const xhr = new XMLHttpRequest();
+
+    // APIのURL
+    xhr.open("GET", '/api01');
+
+    //リクエスト送信
+    xhr.send();
+
+    // 自動的に呼ばれる関数
+    xhr.onreadystatechange = function () {
+        // readyStateは、呼び出しの状態を表す
+        //    1：open()が完了
+        //    2：send()が完了、ヘッダー情報取得
+        //    3：リクエストロード中有
+        //    4：リクエストが完了読み込み済
+        // statusは、httpステータスで200が正常値。
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // 戻り値をコンソールに出力
+            console.log(xhr.responseText);
+        }
+    }
+</script>
