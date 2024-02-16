@@ -1,7 +1,7 @@
 import sqlite3
 
 def db_connect():
-    # TEST.dbを作成する
+    # misc.dbを作成する
     # すでに存在していれば、それにアスセスする。
     dbname = 'misc.db'
     conn = sqlite3.connect(dbname)
