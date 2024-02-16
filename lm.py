@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request, jsonify
+from dblm import db_connect,db_close
 
 app = Flask(__name__, static_folder="./static/")
 
