@@ -1,0 +1,17 @@
+--終了
+.exit
+--スキーマ確認
+.schema
+--出力モード
+.mode (ascii box column csv html insert json line list markdown qbox quote table tabs tcl)
+--出力先を変更
+.output ファイル名 | stdout
+--SQLによるダンプ
+.dump
+--ダンプしたSQLを読み込む
+.read ファイル名
+--table一覧を表示
+.tables
+
+自動採番の参考ＵＲＬ（AutoIncrement）
+https://www.javadrive.jp/sqlite/table/index9.html
