@@ -21,6 +21,8 @@ def regist():
     else:
         if request.form.get('password') != request.form.get('confirmpassword'):
             return render_template('lm/signup.html',message = 'passwordが異なります。')
+        # データベースへ登録(insert)する
+
         return render_template('lm/login.html',message = '登録しました')
 
 @app.route('/userpage')

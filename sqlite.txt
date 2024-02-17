@@ -15,3 +15,16 @@
 
 自動採番の参考ＵＲＬ（AutoIncrement）
 https://www.javadrive.jp/sqlite/table/index9.html
+
+Library Managedのデータベーススキーマ
+PRAGMA foreign_keys=true;
+
+CREATE TABLE user_table(userid INT,username , mail TEXT, birth date, pass TEXT,PRIMARY KEY (userid));
+INSERT INTO user_table VALUES(1,'test','test@test','2005-1-1','test'); 
+INSERT INTO user_table VALUES(1,'test','test@test','2005-1-1','test'); 
+CREATE TABLE library_table(libraryid int ,title TEXT, author TEXT,PRIMARY KEY(libraryid));
+INSERT INTO library_table VALUES(1,'book1','author');
+INSERT INTO library_table VALUES(1,'book1','author');
+CREATE TABLE lending_table(userid int ,libraryid int,PRIMARY KEY(userid,libraryid),FOREIGN KEY(userid)REFERENCES user_table(userid),FOREIGN KEY(libraryid) REFERENCES library_table(libraryid));
+INSERT INTO lending_table VALUES(1,1);
+INSERT INTO lending_table VALUES(1,2);
