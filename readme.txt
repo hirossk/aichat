@@ -4,10 +4,15 @@ require.txt
   flask_socketio
 
 step0
+  超入門
   https://github.com/hirossk/selfintro
   venv環境の構築
+  python -m venv selfintro
+  pip install flask
 step1
   リポジトリflasklogicの説明
+  https://github.com/hirossk/flasklogic
+
   ⅰ．transition1.py,transition2.pyによる画面とデータ（session含む）の関係性
   ⅱ．loginapp1.pyによるログイン処理とフォーム入力
   ⅲ．fileupload.pyにるデータ送信
