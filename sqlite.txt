@@ -21,14 +21,14 @@ PRAGMA foreign_keys=true;
 
 DROP TABLE IF EXISTS lending_table;
 DROP TABLE IF EXISTS user_table;
-DROP TABLE IF EXISTS library_table;
+DROP TABLE IF EXISTS book_table;
 
 CREATE TABLE user_table(userid INT,username , mail TEXT, birth date, pass TEXT,PRIMARY KEY (userid));
 INSERT INTO user_table VALUES(1,'test','test@test','2005-1-1','test'); 
 INSERT INTO user_table VALUES(1,'test','test@test','2005-1-1','test'); 
-CREATE TABLE library_table(libraryid int ,title TEXT, author TEXT,PRIMARY KEY(libraryid));
-INSERT INTO library_table VALUES(1,'book1','author');
-INSERT INTO library_table VALUES(1,'book1','author');
-CREATE TABLE lending_table(userid int ,libraryid int,PRIMARY KEY(userid,libraryid),FOREIGN KEY(userid)REFERENCES user_table(userid),FOREIGN KEY(libraryid) REFERENCES library_table(libraryid));
+CREATE TABLE book_table(bookid INT ,title TEXT, author TEXT,PRIMARY KEY(bookid));
+INSERT INTO book_table VALUES(1,'book1','author');
+INSERT INTO book_table VALUES(1,'book1','author');
+CREATE TABLE lending_table(userid int ,bookid int,PRIMARY KEY(userid,bookid),FOREIGN KEY(userid)REFERENCES user_table(userid),FOREIGN KEY(bookid) REFERENCES book_table(bookid));
 INSERT INTO lending_table VALUES(1,1);
 INSERT INTO lending_table VALUES(1,2);
