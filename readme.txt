@@ -3,6 +3,10 @@ require.txt
   flask_login
   flask_socketio
 
+vscode 拡張機能
+  django
+  flask-snippets
+
 step0
   超入門
   https://github.com/hirossk/selfintro
