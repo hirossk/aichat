@@ -11,25 +11,26 @@
 
 <body>
     <div class="overflow-auto" id="area">
-        <div class="talk message">
-            <div class="name">
-                AI(version)
+        <div id="frame">
+            <div class="talk message">
+                <div class="name">
+                    AI version チャットを作ろう！
+                </div>
+
+
+                <div id="message_area">
+
+                </div>
+
             </div>
-
-
-            <div id="message_area">
-
-            </div>
-
+            <form id="new-message">
+                <div id="input">
+                    <label for="text">チャットに送るメッセージ:</label>
+                    <textarea id="message-text" name="sendmessage" rows="3" cols="33" value="1"></textarea>
+                    <input id="submit" type="button" value="送信">
+                </div>
+            </form>
         </div>
-        <form id="new-message">
-            <div class="input">
-                <label for="text">チャットに送るメッセージ:</label>
-                <textarea id="message-text" name="sendmessage" rows="5" cols="33" value="1"></textarea>
-            </div>
-            <input type="submit" value="送信">
-        </form>
-        <div class="result"></div>
     </div>
 </body>
 
