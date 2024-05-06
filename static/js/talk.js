@@ -32,7 +32,7 @@ function ajax(){
             $("#message_area").append("<div class=\"bubble right\"><div class=\"righticon\">" + face + "</div>" + message);
             // $('.result').html(data);
             var answer = data_json['answer'];
-            $("#message_area").append("<div class=\"bubble left\"><img class=\"lefticon\" src=\"/static/images/girl.png\" alt=\"\">" + answer + "</div>");
+            $("#message_area").append("<div class=\"bubble left\"><img class=\"lefticon\" src=\"/static/images/cyber.png\" alt=\"\">" + answer + "</div>");
         })
         // Ajax通信が失敗したら発動
         .fail((jqXHR, textStatus, errorThrown) => {

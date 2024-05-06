@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request
 import json
 import boto3
+from util import getface
 
 import pprint
 
@@ -25,14 +26,15 @@ def loopmessage():
 # Ajax用コールメソッド
 @app.route("/call_ajax", methods = ["POST"])
 def callfromajax():
+    sentiment_score = None
     if request.method == "POST":
         # ここにPythonの処理を書く
         try:
             frommessage = request.form["sendmessage"]
             answer = f"あなたのメッセージは「{frommessage}」"
             # print(frommessage)
-            # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
-            # pprint.pprint(response['SentimentScore'])
+            response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
+            sentiment_score = response['SentimentScore']
             # response = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
             # pprint.pprint(response['KeyPhrases'])
             # prompt = """Human: """ + frommessage + """
@@ -57,10 +59,12 @@ def callfromajax():
         
         frommessage = frommessage.replace('\n','<br>')
         answer = answer.replace('\n','<br>')
+        face = getface(sentiment_score)
+        # face = "😊"
         dict = {"answer": answer,
                 "message": frommessage,
-                "face": "😊"}      # 辞書
+                "face": face}      # 辞書
     return json.dumps(dict, ensure_ascii=False)             # 辞書をJSONにして返す
 
 if __name__=='__main__':
-    app.run(host="0.0.0.0",port=80,debug=False)
+    app.run(host="0.0.0.0",port=80,debug=True)
