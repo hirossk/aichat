@@ -4,13 +4,14 @@
     // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python デバッガー: Flask",
             "type": "debugpy",
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "lm.py",
+                "FLASK_APP": "chatai.py",
                 "FLASK_DEBUG": "1"
             },
             "args": [
