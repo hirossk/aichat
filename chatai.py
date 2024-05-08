@@ -3,19 +3,21 @@ import json
 import boto3
 from util import getface,InvalidUsage
 from botocore.exceptions import BotoCoreError, ClientError
-import pprint
 import os
+from langchain_aws import BedrockLLM
+from langchain import ConversationChain
 
-
+# LLMの定義
+llm = BedrockLLM(
+    model_id="anthropic.claude-v2:1"
+)
+conversation = ConversationChain(llm=llm)
 
 app = Flask(__name__, static_folder="./static/")
 
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
 
-#生成AIエンジンへの接続
-bedrock = boto3.client('bedrock', region_name='ap-northeast-1')
-bedrock_runtime = boto3.client('bedrock-runtime', region_name='ap-northeast-1')
 
 # Mapping the output format used in the client to the content type for the
 # response
@@ -23,11 +25,7 @@ AUDIO_FORMATS = {"ogg_vorbis": "audio/ogg",
                  "mp3": "audio/mpeg",
                  "pcm": "audio/wave; codecs=1"}
 
-# Create a client using the credentials and region defined in the adminuser
-# section of the AWS credentials and configuration files
-# session = Session(profile_name="hry-sasaki")
 polly = boto3.client('polly', region_name='ap-northeast-1')
-
 pollytext = ""
    
 # '/'URLに数値を指定すると呼び出される関数定義
@@ -47,33 +45,18 @@ def callfromajax():
         try:
             frommessage = request.form["sendmessage"]
             answer = frommessage
-            # answer = f"あなたのメッセージは「{frommessage}」"
+            answer = f"あなたのメッセージは「{frommessage}」"
 
             # チャットメッセージの理解をする
-            # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
-            # sentiment_score = response['SentimentScore']
+            response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
+            sentiment_score = response['SentimentScore']
 
             # チャットメッセージのχフレーズを取得する
             # keyresponse = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
             # pprint.pprint(keyresponse)
             
             # 生成AIによるメッセージの返送
-            # prompt = """Human: """ + frommessage + """
-            #         Assistant:"""
-            # body = json.dumps(
-            #     {
-            #     "prompt": prompt,
-            #     "max_tokens_to_sample": 500,
-            #     }
-            # )
-            # response = bedrock_runtime.invoke_model(
-            #     modelId="anthropic.claude-v2:1",
-            #     body=body,
-            #     contentType="application/json",
-            #     accept="application/json",
-            #     )
-            # decode_answer = response["body"].read().decode()
-            # answer = json.loads(decode_answer)["completion"]
+            answer = conversation.predict(input=frommessage)
 
         except Exception as e:
             answer = str(e)
