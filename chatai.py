@@ -9,7 +9,8 @@ from langchain import ConversationChain
 
 # LLMの定義
 llm = BedrockLLM(
-    model_id="anthropic.claude-v2:1"
+    model_id="anthropic.claude-v2:1",
+    region_name='ap-northeast-1'
 )
 conversation = ConversationChain(llm=llm)
 
