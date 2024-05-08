@@ -90,7 +90,8 @@
             input.addEventListener('submit', function (event) {
                 // Validate the fields in the form, display a message if
                 // unexpected values are encountered
-                if (voiceMenu.selectedIndex <= 0 || text.value.length === 0) {
+                // if (voiceMenu.selectedIndex <= 0 || text.value.length === 0) {
+                if (voiceMenu.selectedIndex <= 0) {
                     alert('Please fill in all the fields.');
                 } else {
                     var selectedVoice = voiceMenu
@@ -100,7 +101,6 @@
                     // Point the player to the streaming server
                     player.src = '/read?voiceId=' +
                         encodeURIComponent(selectedVoice) +
-                        '&text=' + encodeURIComponent(text.value) +
                         '&outputFormat=' + supportedFormats[0];
                     player.play();
                 }

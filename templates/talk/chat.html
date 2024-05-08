@@ -18,35 +18,30 @@
                 <div class="name">
                     AI version チャットを作ろう！
                 </div>
-
                 <div id="chat-area">
-
                 </div>
-
             </div>
-            <form id="new-message">
-                <div id="message-area">
+            <div id="message-area">          
+                <form id="new-message">
+
                     <label for="text">チャットに送るメッセージ:</label>
                     <textarea id="message-text" name="sendmessage" rows="3" cols="33" value="1"></textarea>
                     <input id="submit" type="button" value="送信">
-                </div>
-            </form>
+
+                </form>
+                <form id="input" method="GET" action="/read">
+                    <div>
+                        <label for="voice">声の選択</label>
+                        <select id="voice" name="voiceId" disabled>
+                            <option value="">Choose a voice...</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="読み上げる" id="submit" />
+                </form>
+            </div>
         </div>
     </div>
-    <form id="input" method="GET" action="/read">
-        <div>
-            <label for="voice">Select a voice:</label>
-            <select id="voice" name="voiceId" disabled>
-                <option value="">Choose a voice...</option>
-            </select>
-        </div>
-        <div>
-            <label for="text">Text to read:</label>
-            <textarea id="text" maxlength="1000" minlength="1" name="text"
-                    placeholder="Type some text here..."></textarea>
-        </div>
-        <input type="submit" value="Read" id="submit" />
-    </form>
+
     <audio id="player"></audio>
 </body>
 

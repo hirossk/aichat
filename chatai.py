@@ -28,6 +28,7 @@ AUDIO_FORMATS = {"ogg_vorbis": "audio/ogg",
 # session = Session(profile_name="hry-sasaki")
 polly = boto3.client('polly', region_name='ap-northeast-1')
 
+pollytext = ""
    
 # '/'URLに数値を指定すると呼び出される関数定義
 @app.route('/')
@@ -39,6 +40,7 @@ def loopmessage():
 # Ajax用コールメソッド
 @app.route("/call_ajax", methods = ["POST"])
 def callfromajax():
+    global pollytext
     sentiment_score = None
     if request.method == "POST":
         # ここにPythonの処理を書く
@@ -53,26 +55,26 @@ def callfromajax():
             pprint.pprint(keyresponse)
             
             # 生成AIによるメッセージの返送
-            # prompt = """Human: """ + frommessage + """
-            #         Assistant:"""
-            # body = json.dumps(
-            #     {
-            #     "prompt": prompt,
-            #     "max_tokens_to_sample": 500,
-            #     }
-            # )
-            # response = bedrock_runtime.invoke_model(
-            #     modelId="anthropic.claude-v2:1",
-            #     body=body,
-            #     contentType="application/json",
-            #     accept="application/json",
-            #     )
-            # decode_answer = response["body"].read().decode()
-            # answer = json.loads(decode_answer)["completion"]
+            prompt = """Human: """ + frommessage + """
+                    Assistant:"""
+            body = json.dumps(
+                {
+                "prompt": prompt,
+                "max_tokens_to_sample": 500,
+                }
+            )
+            response = bedrock_runtime.invoke_model(
+                modelId="anthropic.claude-v2:1",
+                body=body,
+                contentType="application/json",
+                accept="application/json",
+                )
+            decode_answer = response["body"].read().decode()
+            answer = json.loads(decode_answer)["completion"]
 
         except Exception as e:
             answer = str(e)
-        
+        pollytext = answer
         frommessage = frommessage.replace('\n','<br>')
         answer = answer.replace('\n','<br>')
         face = getface(sentiment_score)
@@ -88,7 +90,8 @@ def read():
     # Get the parameters from the query string
     try:
         outputFormat = request.args.get('outputFormat')
-        text = request.args.get('text')
+        # text = request.args.get('text')
+        text = pollytext
         separate = request.args.get('voiceId').split("@")
         voiceId = separate[0]
         engine =  separate[1].split(',')[0]
@@ -98,6 +101,7 @@ def read():
 
     # Validate the parameters, set error flag in case of unexpected
     # values
+    print(text)
     if len(text) == 0 or len(voiceId) == 0 or \
             outputFormat not in AUDIO_FORMATS:
         raise InvalidUsage("Wrong parameters", status_code=400)
