@@ -46,31 +46,34 @@ def callfromajax():
         # ここにPythonの処理を書く
         try:
             frommessage = request.form["sendmessage"]
-            answer = f"あなたのメッセージは「{frommessage}」"
+            answer = frommessage
+            # answer = f"あなたのメッセージは「{frommessage}」"
+
             # チャットメッセージの理解をする
-            response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
-            sentiment_score = response['SentimentScore']
+            # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
+            # sentiment_score = response['SentimentScore']
+
             # チャットメッセージのχフレーズを取得する
-            keyresponse = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
-            pprint.pprint(keyresponse)
+            # keyresponse = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
+            # pprint.pprint(keyresponse)
             
             # 生成AIによるメッセージの返送
-            prompt = """Human: """ + frommessage + """
-                    Assistant:"""
-            body = json.dumps(
-                {
-                "prompt": prompt,
-                "max_tokens_to_sample": 500,
-                }
-            )
-            response = bedrock_runtime.invoke_model(
-                modelId="anthropic.claude-v2:1",
-                body=body,
-                contentType="application/json",
-                accept="application/json",
-                )
-            decode_answer = response["body"].read().decode()
-            answer = json.loads(decode_answer)["completion"]
+            # prompt = """Human: """ + frommessage + """
+            #         Assistant:"""
+            # body = json.dumps(
+            #     {
+            #     "prompt": prompt,
+            #     "max_tokens_to_sample": 500,
+            #     }
+            # )
+            # response = bedrock_runtime.invoke_model(
+            #     modelId="anthropic.claude-v2:1",
+            #     body=body,
+            #     contentType="application/json",
+            #     accept="application/json",
+            #     )
+            # decode_answer = response["body"].read().decode()
+            # answer = json.loads(decode_answer)["completion"]
 
         except Exception as e:
             answer = str(e)
@@ -138,7 +141,6 @@ def voices():
 
     # Collect all the voices
     voices.extend(response.get("Voices", []))
-    pprint.pprint(response)
 
     return jsonify(voices)
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>チャットトーク</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/chat.css') }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/talk.js') }}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/talk.css') }}" />
+</head>
+
+<body>
+    <!-- メインコンテンツ -->
+    {%- block content %}{% endblock %}
+</body>
+
+</html>

@@ -13,10 +13,10 @@ window.onload = function () {
     }
 }
 
-function ajax(){
+function ajax() {
     var $ta = $("#message-text")
-     // Ajax通信
-     $.ajax({
+    // Ajax通信
+    $.ajax({
         url: './call_ajax',
         type: 'POST',
         data: {
@@ -56,7 +56,7 @@ function ajax(){
                     tgt = document.documentElement;
                 }
                 tgt.scrollTop = scrollHeight;
-              }
+            }
             $ta.val("");
         });
 

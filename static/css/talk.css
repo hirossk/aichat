@@ -15,3 +15,10 @@
     display: block;
 }
 
+#voice-area {
+    /* コレwidth: 100%; */
+    /*コレ*/box-sizing: border-box;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #e4f7af;
+}

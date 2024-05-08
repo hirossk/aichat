@@ -1,48 +1,17 @@
-<!DOCTYPE html>
-<html>
+{%- extends "talk/layout.html" %}
+{%- block content %}
 
-<head>
-    <meta charset="utf-8">
-    <title>チャットトーク</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/chat.css') }}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/chat.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/talk.js') }}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/talk.css') }}" />
-</head>
-
-<body>
-    <div class="overflow-auto" id="area">
-        <div id="frame">
-            <div class="talk message">
-                <div class="name">
-                    AI version チャットを作ろう！
-                </div>
-                <div id="chat-area">
-                </div>
+<div class="overflow-auto" id="area">
+    <div id="frame">
+        <div class="talk message">
+            <div class="name">
+                AI version チャットを作ろう！
             </div>
-            <div id="message-area">          
-                <form id="new-message">
-
-                    <label for="text">チャットに送るメッセージ:</label>
-                    <textarea id="message-text" name="sendmessage" rows="3" cols="33" value="1"></textarea>
-                    <input id="submit" type="button" value="送信">
-
-                </form>
-                <form id="input" method="GET" action="/read">
-                    <div>
-                        <label for="voice">声の選択</label>
-                        <select id="voice" name="voiceId" disabled>
-                            <option value="">Choose a voice...</option>
-                        </select>
-                    </div>
-                    <input type="submit" value="読み上げる" id="submit" />
-                </form>
+            <div id="chat-area">
             </div>
         </div>
+        {% include "talk/message.html" %}
+        {% include "talk/voice.html" %}
     </div>
-
-    <audio id="player"></audio>
-</body>
-
-</html>
+</div>
+{%- endblock %}
