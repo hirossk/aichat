@@ -1,6 +1,5 @@
 boto3
 flask
-llm
 langchain
 langchain_aws
 

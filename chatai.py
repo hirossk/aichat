@@ -46,31 +46,33 @@ def callfromajax():
         try:
             frommessage = request.form["sendmessage"]
             answer = frommessage
-            answer = f"あなたのメッセージは「{frommessage}」"
+            # answer = f"あなたのメッセージは「{frommessage}」"
 
             # チャットメッセージの理解をする
-            response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
-            sentiment_score = response['SentimentScore']
+            # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
+            # sentiment_score = response['SentimentScore']
 
             # チャットメッセージのχフレーズを取得する
             # keyresponse = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
             # pprint.pprint(keyresponse)
             
             # 生成AIによるメッセージの返送
-            answer = conversation.predict(input=frommessage)
+            # answer = conversation.predict(input=frommessage)
 
         except Exception as e:
             answer = str(e)
+            
         pollytext = answer
         frommessage = frommessage.replace('\n','<br>')
         answer = answer.replace('\n','<br>')
         face = getface(sentiment_score)
 
-        dict = {"answer": answer,
-                "message": frommessage,
-                "face": face}      # 辞書
-    return json.dumps(dict, ensure_ascii=False)             # 辞書をJSONにして返す
+        dict = {"answer": answer, # 回答
+                "message": frommessage,# 元のメッセージ
+                "face": face}  # 顔文字
+    return json.dumps(dict, ensure_ascii=False)             
 
+# 読み上げ機能
 @app.route('/read', methods=['GET'])
 def read():
     """Handles routing for reading text (speech synthesis)"""
@@ -80,15 +82,14 @@ def read():
         # text = request.args.get('text')
         text = pollytext
         separate = request.args.get('voiceId').split("@")
+        # 声の種類
         voiceId = separate[0]
+        # エンジンの指定
         engine =  separate[1].split(',')[0]
-        # voiceId = request.args.get('voiceId')
+        
     except TypeError:
         raise InvalidUsage("Wrong parameters", status_code=400)
 
-    # Validate the parameters, set error flag in case of unexpected
-    # values
-    print(text)
     if len(text) == 0 or len(voiceId) == 0 or \
             outputFormat not in AUDIO_FORMATS:
         raise InvalidUsage("Wrong parameters", status_code=400)
