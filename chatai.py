@@ -5,6 +5,7 @@ from util import getface
 import os
 from langchain_aws import BedrockLLM
 from langchain import ConversationChain
+from langchain.memory import ConversationBufferMemory
 import voice
 
 # LLMの定義
@@ -12,7 +13,9 @@ llm = BedrockLLM(
     model_id="anthropic.claude-v2:1",
     region_name='ap-northeast-1'
 )
+# memory = ConversationBufferMemory(return_messages=True)
 conversation = ConversationChain(llm=llm)
+
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
    
@@ -34,8 +37,8 @@ def callfromajax():
         # ここにPythonの処理を書く
         try:
             frommessage = request.form["sendmessage"]
-            answer = frommessage
-            # answer = f"あなたのメッセージは「{frommessage}」"
+            # answer = frommessage
+            answer = f"あなたのメッセージは「{frommessage}」"
 
             # チャットメッセージの理解をする
             # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
