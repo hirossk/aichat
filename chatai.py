@@ -37,14 +37,14 @@ def callfromajax():
         # ここにPythonの処理を書く
         try:
             frommessage = request.form["sendmessage"]
-            # answer = frommessage
-            answer = f"あなたのメッセージは「{frommessage}」"
+            answer = frommessage
+            # answer = f"あなたのメッセージは「{frommessage}」"
 
             # チャットメッセージの理解をする
             # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
             # sentiment_score = response['SentimentScore']
 
-            # チャットメッセージのχフレーズを取得する
+            # チャットメッセージのフレーズを取得する
             # keyresponse = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
             # pprint.pprint(keyresponse)
             
