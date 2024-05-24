@@ -24,6 +24,7 @@ label {
         box-sizing: border-box;
         max-width: 800px;
         margin: 0 auto;
+        /* ここでメッセージエリアの背景色を変えられます */
         background: #f7edaf;
 }
 #message-text {

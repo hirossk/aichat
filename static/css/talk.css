@@ -16,9 +16,9 @@
 }
 
 #voice-area {
-    /* コレwidth: 100%; */
-    /*コレ*/box-sizing: border-box;
+    box-sizing: border-box;
     max-width: 800px;
     margin: 0 auto;
+    /* 音声出力の背景はこちらで変更できます */
     background: #e4f7af;
 }
