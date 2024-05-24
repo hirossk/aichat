@@ -1,22 +1,23 @@
 def getface(sentiment_score):
     if sentiment_score is None:
-        return "😊";
+        return "";
     posi,nega,neu,mix = getsentimentscore(sentiment_score)
     # 感情を読み取ってアイコンを変更する
-    print(sentiment_score)
+    printout("You:",posi,nega,neu,mix)
     # if posi > 90:
-    #     return "😁"
-    return "😶"
+    #     return ""
+    return ""
+
 
 def getaiface(sentiment_score):
     if sentiment_score is None:
         return None;
     posi,nega,neu,mix = getsentimentscore(sentiment_score)
     # 感情を読み取ってアイコンを変更する
-    print(sentiment_score)
+    printout("AI:",posi,nega,neu,mix)
     # if posi > 80:
     #     return ""
-    return "🤖"
+    return ""
 
 def getsentimentscore(sentiment_score):
     posi = sentiment_score['Positive'] * 100
@@ -24,6 +25,13 @@ def getsentimentscore(sentiment_score):
     neu = sentiment_score['Neutral'] * 100
     mix = sentiment_score['Mixed'] * 100
     return posi,nega,neu,mix
+
+def printout(w,posi,nega,neu,mix):
+    print(w)
+    print("  Positive = ", posi)
+    print("  Negative = ", nega)
+    print("  Neutral = ", neu)
+    print("  Mixed = ", mix)
 
 # Simple exception class
 class InvalidUsage(Exception):
