@@ -1,14 +1,12 @@
+
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-boto3
-flask
-langchain
-langchain_aws
+pip install -r requirements.txt
 
-python talkai.py
+python aichat.py
 
 １．チャット機能を作ろう
-　　⇒message.htmlのコメント解除
+　　⇒input.htmlのコメント解除
 ２．見栄えをよくしよう
 　　⇒layout.htmlのコメント解除
 ３．オウム返しのメッセージを少し変化させよう
@@ -25,7 +23,7 @@ python talkai.py
 
 Visual Studio Codeの開いておくファイル
 chatai.py
-message.html
+input.html
 layout.html
 chat.css
 util.py

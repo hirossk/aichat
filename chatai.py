@@ -25,8 +25,8 @@ app.register_blueprint(voice.app)
 @app.route('/')
 def loopmessage():
     # create_talk関数の呼び出し
-    # Jinjaテンプレートによる展開が行われる（talksはhtml内で利用される）
-    return render_template('talk/chat.html')
+    # Jinjaテンプレートによる展開が行われる
+    return render_template('talk/chat.html' ,link="https://www.iijmio.jp/campaign/")
 
 # Ajax用コールメソッド
 @app.route("/call_ajax", methods = ["POST"])
