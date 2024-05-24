@@ -8,6 +8,16 @@ def getface(sentiment_score):
     #     return "😁"
     return "😶"
 
+def getaiface(sentiment_score):
+    if sentiment_score is None:
+        return None;
+    posi,nega,neu,mix = getsentimentscore(sentiment_score)
+    # 感情を読み取ってアイコンを変更する
+    print(sentiment_score)
+    # if posi > 80:
+    #     return ""
+    return "🤖"
+
 def getsentimentscore(sentiment_score):
     posi = sentiment_score['Positive'] * 100
     nega = sentiment_score['Negative'] * 100

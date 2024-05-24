@@ -59,6 +59,7 @@ message風フキダシ
 /*ユーザアイコン*/
 .talk.message .lefticon {
     position: absolute;
+    font-size: 32px;
     width: 40px;
     height: 40px;
     left: -54px;

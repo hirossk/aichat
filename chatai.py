@@ -1,7 +1,7 @@
 from flask import Flask,render_template,request, send_file,jsonify
 import json
 import boto3
-from util import getface
+from util import getface,getaiface
 import os
 from langchain_aws import BedrockLLM
 from langchain import ConversationChain
@@ -33,6 +33,7 @@ def loopmessage():
 @app.route("/call_ajax", methods = ["POST"])
 def callfromajax():
     sentiment_score = None
+    aisentiment_score = None
     if request.method == "POST":
         # ここにPythonの処理を書く
         try:
@@ -51,6 +52,10 @@ def callfromajax():
             # 生成AIによるメッセージの返送
             # answer = conversation.predict(input=frommessage)
 
+            # 生成AIの感情を判定
+            # airesponse = comprehend.detect_sentiment(Text=answer, LanguageCode='ja')
+            # aisentiment_score = airesponse['SentimentScore']
+
         except Exception as e:
             answer = str(e)
             
@@ -58,10 +63,12 @@ def callfromajax():
         frommessage = frommessage.replace('\n','<br>')
         answer = answer.replace('\n','<br>')
         face = getface(sentiment_score)
+        aiface = getaiface(aisentiment_score)
 
         dict = {"answer": answer, # 回答
                 "message": frommessage,# 元のメッセージ
-                "face": face}  # 顔文字
+                "face": face,
+                "aiface": aiface}  # 顔文字
     return json.dumps(dict, ensure_ascii=False)             
 
 if __name__=='__main__':

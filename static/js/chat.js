@@ -28,11 +28,16 @@ function ajax() {
             var data_json = JSON.parse(data);
             var face = data_json['face'];
             var message = data_json['message'];
+            var aiface = data_json['aiface'];
             // $("#chat-area").append("<div class=\"bubble right\"><img class=\"righticon\" src=\"/static/images/boy.png\" alt=\"\">" + message + "</div>");
             $("#chat-area").append("<div class=\"bubble right\"><div class=\"righticon\">" + face + "</div>" + message);
             // $('.result').html(data);
             var answer = data_json['answer'];
-            $("#chat-area").append("<div class=\"bubble left\"><img class=\"lefticon\" src=\"/static/images/cyber.png\" alt=\"\">" + answer + "</div>");
+            if(aiface == null){
+                $("#chat-area").append("<div class=\"bubble left\"><img class=\"lefticon\" src=\"/static/images/cyber.png\" alt=\"\">" + answer + "</div>");
+            }else{
+                $("#chat-area").append("<div class=\"bubble left\"><div class=\"lefticon\">" + aiface + "</div>" + answer + "</div>");
+            }
         })
         // Ajax通信が失敗したら発動
         .fail((jqXHR, textStatus, errorThrown) => {
