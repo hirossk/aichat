@@ -37,7 +37,7 @@ def callfromajax():
         # ここにPythonの処理を書く
         try:
             frommessage = request.form["sendmessage"]
-            answer = frommessage
+            answer = "こんにちは" # frommessage
             # answer = f"あなたのメッセージは「{frommessage}」"
 
             # チャットメッセージの理解をする
