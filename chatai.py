@@ -15,7 +15,6 @@ llm = BedrockLLM(
 )
 # memory = ConversationBufferMemory(return_messages=True)
 conversation = ConversationChain(llm=llm)
-
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
    
@@ -67,8 +66,8 @@ def callfromajax():
 
         dict = {"answer": answer, # 回答
                 "message": frommessage,# 元のメッセージ
-                "face": face,
-                "aiface": aiface}  # 顔文字
+                "face": face, # 送信メッセージの気分
+                "aiface": aiface}  # aiメッセージの気分
     return json.dumps(dict, ensure_ascii=False)             
 
 if __name__=='__main__':
