@@ -8,7 +8,7 @@ from langchain import ConversationChain
 from langchain.memory import ConversationBufferMemory
 import voice
 
-# LLMの定義
+# LLMの定義 Anthropic(アンスロピック)の生成AI Claude（クロード）を利用します
 llm = BedrockLLM(
     model_id="anthropic.claude-v2:1",
     region_name='ap-northeast-1'
@@ -36,7 +36,7 @@ def callfromajax():
     if request.method == "POST":
         # ここにPythonの処理を書く
         try:
-            frommessage = request.form["sendmessage"]
+            frommessage = request.form["sendmessage"] # 入力したメッセージ
             answer = "こんにちは" # frommessage
             # answer = f"あなたのメッセージは「{frommessage}」"
 

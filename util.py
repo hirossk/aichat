@@ -8,7 +8,6 @@ def getface(sentiment_score):
     #     return ""
     return ""
 
-
 def getaiface(sentiment_score):
     if sentiment_score is None:
         return None;
@@ -20,10 +19,10 @@ def getaiface(sentiment_score):
     return ""
 
 def getsentimentscore(sentiment_score):
-    posi = sentiment_score['Positive'] * 100
-    nega = sentiment_score['Negative'] * 100
-    neu = sentiment_score['Neutral'] * 100
-    mix = sentiment_score['Mixed'] * 100
+    posi = sentiment_score['Positive']
+    nega = sentiment_score['Negative']
+    neu = sentiment_score['Neutral']
+    mix = sentiment_score['Mixed']
     return posi,nega,neu,mix
 
 def printout(w,posi,nega,neu,mix):
