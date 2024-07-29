@@ -14,8 +14,8 @@ llm = BedrockLLM(
     region_name='ap-northeast-1'
 )
 # memory = ConversationBufferMemory(return_messages=True)
-# conversation = ConversationChain(llm=llm,memory=memory)
 conversation = ConversationChain(llm=llm)
+
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
    
@@ -32,6 +32,7 @@ def loopmessage():
 # Ajax-Callメソッド
 @app.route("/call_ajax", methods = ["POST"])
 def callfromajax():
+    global frommessage
     sentiment_score = None
     if request.method == "POST":
         try:
@@ -59,8 +60,7 @@ def responseai():
     aisentiment_score = None
     if request.method == "POST":
         try:
-            frommessage = request.form["sendmessage"] # 入力したメッセージ
-            # answerには返信用メッセージが格納されています。
+            # answerには返信用メッセージが格納されます。
             answer = "こんにちは" # frommessage
             # answer = f"あなたのメッセージは「{frommessage}」"
         
