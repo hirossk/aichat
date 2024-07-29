@@ -4,7 +4,7 @@ import boto3
 from util import getface,getaiface
 import os
 from langchain_aws import BedrockLLM
-from langchain import ConversationChain
+from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 import voice
 
