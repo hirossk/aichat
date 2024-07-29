@@ -14,6 +14,7 @@ llm = BedrockLLM(
     region_name='ap-northeast-1'
 )
 # memory = ConversationBufferMemory(return_messages=True)
+# conversation = ConversationChain(llm=llm,memory=memory)
 conversation = ConversationChain(llm=llm)
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
@@ -28,26 +29,41 @@ def loopmessage():
     # Jinjaテンプレートによる展開が行われる
     return render_template('talk/chat.html' ,link="https://www.iijmio.jp/campaign/")
 
-# Ajax用コールメソッド
+# Ajax-Callメソッド
 @app.route("/call_ajax", methods = ["POST"])
 def callfromajax():
     sentiment_score = None
-    aisentiment_score = None
     if request.method == "POST":
-        # ここにPythonの処理を書く
         try:
             frommessage = request.form["sendmessage"] # 入力したメッセージ
-            answer = "こんにちは" # frommessage
-            # answer = f"あなたのメッセージは「{frommessage}」"
 
             # チャットメッセージの理解をする
             # response = comprehend.detect_sentiment(Text=frommessage, LanguageCode='ja')
             # sentiment_score = response['SentimentScore']
 
-            # チャットメッセージのフレーズを取得する
-            # keyresponse = comprehend.detect_key_phrases(Text=frommessage, LanguageCode='ja')
-            # pprint.pprint(keyresponse)
+        except Exception as e:
+            answer = str(e)
             
+        frommessage = frommessage.replace('\n','<br>')
+        face = getface(sentiment_score)
+
+        dict = {"message": frommessage,# 元のメッセージ
+                "face": face}  # aiメッセージの気分
+        
+
+    return json.dumps(dict, ensure_ascii=False)             
+
+# 生成AI-Callメソッド
+@app.route("/response_ai", methods = ["POST"])
+def responseai():
+    aisentiment_score = None
+    if request.method == "POST":
+        try:
+            frommessage = request.form["sendmessage"] # 入力したメッセージ
+            # answerには返信用メッセージが格納されています。
+            answer = "こんにちは" # frommessage
+            # answer = f"あなたのメッセージは「{frommessage}」"
+        
             # 生成AIによるメッセージの返送
             # answer = conversation.predict(input=frommessage)
 
@@ -58,17 +74,14 @@ def callfromajax():
         except Exception as e:
             answer = str(e)
             
+        # 生成AIの感情を読み取る
         voice.pollytext = answer
-        frommessage = frommessage.replace('\n','<br>')
         answer = answer.replace('\n','<br>')
-        face = getface(sentiment_score)
         aiface = getaiface(aisentiment_score)
 
         dict = {"answer": answer, # 回答
-                "message": frommessage,# 元のメッセージ
-                "face": face, # 送信メッセージの気分
                 "aiface": aiface}  # aiメッセージの気分
-    return json.dumps(dict, ensure_ascii=False)             
+    return json.dumps(dict, ensure_ascii=False)
 
 if __name__=='__main__':
     app.secret_key = os.urandom(24)
