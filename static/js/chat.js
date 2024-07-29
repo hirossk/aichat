@@ -4,17 +4,15 @@ var $form = $("#new-message");
 window.onload = function () {
     // ↪︎ windowがロードされた時にアクションを実行するように設定
     if (document.getElementById("area")) {
-        // ↪︎ areaのIDがある場合に処理を実行させる（これがないとチャット画面がなくても常にJavaScriptが動いてしまいます）
-        var scrollPosition = document.getElementById("area").scrollTop;
-        // ↪︎ area要素のスクロールされた時の最も高い場所を取得
+        // area要素のスクロールされた時の最も高い場所を取得
         var scrollHeight = document.getElementById("area").scrollHeight;
-        // ↪︎ area要素自体の最も高い場所を取得
+        // area要素自体の最も高い場所を取得
         document.getElementById("area").scrollTop = scrollHeight;
-        // ↪︎ area要素のスクロールされた時の最も高い場所をarea要素自体の最も高い場所として指定してあげる
+        // area要素のスクロールされた時の最も高い場所をarea要素自体の最も高い場所として指定してあげる
     }
 }
 
-function ajax_ai() {
+function ajax_ai(message) {
     var $ta = $("#message-text")
     // 生成AIによる思考時間を「くるくる」させて待つ
     // dispLoading("考え中...");
@@ -22,7 +20,7 @@ function ajax_ai() {
         url: './response_ai',
         type: 'POST',
         data: {
-            'sendmessage': $ta.val()
+            'sendmessage': message
         }
     })
         // Ajax通信が成功したら発動
@@ -47,7 +45,6 @@ function ajax_ai() {
         // Ajax通信が成功・失敗のどちらでも発動
         .always((data) => {
             autoscroll();
-            $ta.val("");
         });
 
 }
@@ -69,7 +66,7 @@ function ajax_user() {
             var message = data_json['message'];
             $("#chat-area").append("<div class=\"bubble right\"><div class=\"righticon\">" + face + "</div>" + message);
             // 生成AIによるメッセージ生成を呼び出す
-            ajax_ai();
+            ajax_ai(message);
         })
         // Ajax通信が失敗したら発動
         .fail((jqXHR, textStatus, errorThrown) => {
@@ -81,6 +78,7 @@ function ajax_user() {
         // Ajax通信が成功・失敗のどちらでも発動
         .always((data) => {
             autoscroll();
+            $ta.val("");
         });
 
 }
@@ -91,7 +89,7 @@ $(document).on("keydown", "#message-text", function (e) {
     if (e.keyCode == 13) { // Enterが押された
         if (e.shiftKey) { // Shiftキーも押された
             $.noop();
-        } else if ($ta.val().replace("/\s/g", "").length > 0) {
+        } else if ($ta.val().replace(/\s/g, "").length > 0) {
             e.preventDefault();
             ajax_user();
         }
