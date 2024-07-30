@@ -2,7 +2,7 @@
 var $form = $("#new-message");
 
 window.onload = function () {
-    // ↪︎ windowがロードされた時にアクションを実行するように設定
+    // windowがロードされた時にアクションを実行するように設定
     if (document.getElementById("area")) {
         // area要素のスクロールされた時の最も高い場所を取得
         var scrollHeight = document.getElementById("area").scrollHeight;
