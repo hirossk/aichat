@@ -3,16 +3,16 @@ import json
 import boto3
 from util import getface,getaiface
 import os
-from langchain_aws import BedrockLLM
+from langchain_aws import BedrockLLM,ChatBedrock
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 import voice
 
 # LLMの定義 Anthropic(アンスロピック)の生成AI Claude（クロード）を利用します
-llm = BedrockLLM(
-    model_id="anthropic.claude-v2:1",
-    region_name='ap-northeast-1'
-)
+# llm = BedrockLLM(model_id="anthropic.claude-v2:1", region_name='ap-northeast-1') #古いバージョン
+llm = ChatBedrock(model_id="anthropic.claude-3-sonnet-20240229-v1:0",model_kwargs={"max_tokens": 1000,})
+
+# 記憶領域の拡大に使います
 # memory = ConversationBufferMemory(return_messages=True)
 conversation = ConversationChain(llm=llm)
 
