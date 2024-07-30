@@ -41,3 +41,6 @@ voice.html
 「面白い話をしてください。」
 「英語で回答をしてください。」
 「心温まるいい話をしていただけませんか？」
+
+日本のLLM（大規模言語モデル）
+https://aismiley.co.jp/ai_news/what-is-llm-in-japan/
