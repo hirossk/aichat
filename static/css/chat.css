@@ -1,6 +1,12 @@
 /*==============
 message風フキダシ
 ===============*/
+:root {
+    --talk-color: #ffd7f4;
+    --talk-right: #f7edaf;
+    --talk-left: #d6ff90;
+}
+
 /*フレームとフォント*/
 .talk.message {
     width: 100%;
@@ -8,7 +14,7 @@ message風フキダシ
     margin: 0 auto;
     padding: 10px 0;
     /* 背景色はこちらで変更できます */
-    background: #ffd7f4;
+    background: var(--talk-color);
     font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "Helvetica Neue", "Lucida Sans Unicode", "Arial";
     font-size: 16px;
     color: #333;
@@ -35,7 +41,7 @@ message風フキダシ
 .talk.message .bubble.left {
     float: left;
     margin-left: 62px;
-    background: rgb(230, 255, 149);
+    background: var(--talk-left);
 }
 
 /*グループのときのフキダシ*/
@@ -47,7 +53,7 @@ message風フキダシ
 .talk.message .bubble.right {
     float: right;
     margin-right: 62px;
-    background: #f7edaf;
+    background: var(--talk-right);
 }
 
 /*相手の名前*/
@@ -98,14 +104,14 @@ message風フキダシ
 .talk.message .bubble.left:after {
     left: -10px;
     border-radius: 18px 0 6px 18px/18px 0 1px 18px;
-    box-shadow: -3px -15px 0 -5px rgb(230, 255, 149) inset;
+    box-shadow: -3px -15px 0 -5px var(--talk-left) inset;
 }
 
 /*しっぽ右*/
 .talk.message .bubble.right::after {
     right: -10px;
     border-radius: 0 18px 18px 6px/0 18px 18px 1px;
-    box-shadow: inset 3px -15px 0 -5px #f7edaf;
+    box-shadow: inset 3px -15px 0 -5px var(--talk-right);
 }
 
 /*フキダシが続いてしっぽがないとき*/
@@ -124,12 +130,12 @@ message風フキダシ
     background-color: #fff;
     opacity: 0.8;
 }
-   
+
 #innerMsg {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
     padding-top: 140px;
-    z-index:100;
+    z-index: 100;
     background: url("https://cdn-ak.f.st-hatena.com/images/fotolife/M/Makky12/20190517/20190517200801.gif") center center no-repeat;
 }
