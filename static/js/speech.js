@@ -119,13 +119,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Build the list of options for the menu
             voices.forEach(function (voice) {
-                var option = document.createElement('option');
-                option.value = voice['Id'] + '@' + voice['SupportedEngines'];
-                option.innerHTML = voice['Name'] + ' (' +
-                    voice['Gender'] + ', ' +
-                    voice['LanguageName'] + ', ' +
-                    voice['SupportedEngines'] + ')';
-                container.appendChild(option);
+                // if (voice['LanguageName'] === 'Japanese' || voice['LanguageName'] === 'US English') {
+                    var option = document.createElement('option');
+                    option.value = voice['Id'] + '@' + voice['SupportedEngines'];
+                    option.innerHTML = voice['Name'] + ' (' +
+                        voice['Gender'] + ', ' +
+                        voice['LanguageName'] + ', ' +
+                        voice['SupportedEngines'] + ')';
+                    container.appendChild(option);
+                // }
             });
 
             // Add the options to the menu and enable the form field
