@@ -10,7 +10,7 @@ import voice
 
 # LLMの定義 Anthropic(アンスロピック)の生成AI Claude（クロード）を利用します
 # llm = BedrockLLM(model_id="anthropic.claude-v2:1", region_name='ap-northeast-1') #古いバージョン
-llm = ChatBedrock(model_id="anthropic.claude-3-sonnet-20240229-v1:0",model_kwargs={"max_tokens": 1000,})
+llm = ChatBedrock(model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",model_kwargs={"max_tokens": 1000,})
 
 # 記憶領域の拡大に使います
 # memory = ConversationBufferMemory(return_messages=True)
@@ -65,7 +65,7 @@ def responseai():
             # answer = f"あなたのメッセージは「{frommessage}」"
         
             # 生成AIによるメッセージの返送
-            # answer = conversation.predict(input=frommessage)
+            answer = conversation.predict(input=frommessage)
 
             # 生成AIの感情を判定
             # airesponse = comprehend.detect_sentiment(Text=answer, LanguageCode='ja')
