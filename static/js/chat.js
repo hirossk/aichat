@@ -24,10 +24,31 @@ function ajax_ai(message) {
         }
     })
         // Ajax通信が成功したら発動
+        // ...existing code...
+        // ...existing code...
         .done((data) => {
             var data_json = JSON.parse(data);
             var aiface = data_json['aiface'];
             var answer = data_json['answer'];
+
+            // コードブロック以外の改行を<br>に変換
+            // 1. コードブロックで分割
+            var parts = answer.split(/(```[\s\S]*?```)/g);
+            for(var i=0; i<parts.length; i++){
+                if(parts[i].startsWith("```") && parts[i].endsWith("```")){
+                    // コードブロック部分
+                    parts[i] = parts[i].replace(/```([\s\S]*?)```/g, function(match, code){
+                        // HTMLエスケープ
+                        code = code.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        return "<pre><code>" + code + "</code></pre>";
+                    });
+                }else{
+                    // 通常テキスト部分
+                    parts[i] = parts[i].replace(/\n/g, "<br>");
+                }
+            }
+            answer = parts.join("");
+
             removeLoading();
             if(aiface == null){
                 $("#chat-area").append("<div class=\"bubble left\"><img class=\"lefticon\" src=\"/static/images/cyber.png\" alt=\"\">" + answer + "</div>");
@@ -35,7 +56,8 @@ function ajax_ai(message) {
                 $("#chat-area").append("<div class=\"bubble left\"><div class=\"lefticon\">" + aiface + "</div>" + answer + "</div>");
             }
         })
-        // Ajax通信が失敗したら発動
+        // ...existing code...
+        // ...existing code...ax通信が失敗したら発動
         .fail((jqXHR, textStatus, errorThrown) => {
             alert('Ajax通信に失敗しました。');
             console.log("jqXHR          : " + jqXHR.status); // HTTPステータスを表示
@@ -106,7 +128,7 @@ $(document).on("mousedown", "#submit", function (e) {
     }
 });
 
-function autoscroll(){
+function autoscroll() {
     if (document.getElementById("area")) {
         // ↪︎ areaのIDがある場合に処理を実行させる（これがないとチャット画面がなくても常にJavaScriptが動いてしまいます）
         var scrollHeight = document.getElementById("area").scrollHeight;
@@ -124,20 +146,20 @@ function autoscroll(){
 }
 
 // Loading開始用の関数
-function dispLoading(msg){
-  // 引数なしの場合、メッセージは非表示。
-  if(msg === undefined ) msg = "";
-  
-  // 画面表示メッセージを埋め込み
-  var innerMsg = "<div id='innerMsg'>" + msg + "</div>";  
-  
-  // ローディング画像が非表示かどうかチェックし、非表示の場合のみ出力。
-  if($("#nowLoading").length == 0){
-    $("#chat-area").append("<div id='nowLoading'>" + innerMsg + "</div>");
-  }
+function dispLoading(msg) {
+    // 引数なしの場合、メッセージは非表示。
+    if (msg === undefined) msg = "";
+
+    // 画面表示メッセージを埋め込み
+    var innerMsg = "<div id='innerMsg'>" + msg + "</div>";
+
+    // ローディング画像が非表示かどうかチェックし、非表示の場合のみ出力。
+    if ($("#nowLoading").length == 0) {
+        $("#chat-area").append("<div id='nowLoading'>" + innerMsg + "</div>");
+    }
 }
- 
+
 // Loading終了用の関数
-function removeLoading(){
-  $("#nowLoading").remove();
+function removeLoading() {
+    $("#nowLoading").remove();
 }  

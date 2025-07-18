@@ -4,29 +4,29 @@ import boto3
 from util import getface,getaiface
 import os
 from langchain_aws import BedrockLLM,ChatBedrock
-from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory
 import voice
-
+from langchain_core.runnables import RunnableWithMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory
+import re
+from uuid import uuid4
+# セッションに一意のIDを割り当てて、チャット履歴を保持
+session_id = str(uuid4())
+history = ChatMessageHistory()
 # LLMの定義 Anthropic(アンスロピック)の生成AI Claude（クロード）を利用します
-# llm = BedrockLLM(model_id="anthropic.claude-v2:1", region_name='ap-northeast-1') #古いバージョン
 llm = ChatBedrock(model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",model_kwargs={"max_tokens": 1000,})
-
-# 記憶領域の拡大に使います
-# memory = ConversationBufferMemory(return_messages=True)
-conversation = ConversationChain(llm=llm)
+conversation = RunnableWithMessageHistory( runnable=llm, get_session_history=lambda session_id: history,)
+def predict_message(message):
+    return conversation.invoke( {"input": message}, config={"configurable": {"session_id": "default"}}
+    ).content
 
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
-   
+
 app = Flask(__name__, static_folder="./static/")
 app.register_blueprint(voice.app)
 
-# '/'URLに数値を指定すると呼び出される関数定義
-@app.route('/')
-def loopmessage():
-    # create_talk関数の呼び出し
-    # Jinjaテンプレートによる展開が行われる
+@app.route('/') # トップページ
+def index():
     return render_template('talk/chat.html' ,link="https://www.iijmio.jp/campaign/")
 
 # Ajax-Callメソッド
@@ -60,27 +60,26 @@ def responseai():
     aisentiment_score = None
     if request.method == "POST":
         try:
-            # answerには返信用メッセージが格納されます。
+                        # answerには返信用メッセージが格納されます。
             answer = "こんにちは" # frommessage
-            # answer = f"あなたのメッセージは「{frommessage}」"
-        
-            # 生成AIによるメッセージの返送
-            answer = conversation.predict(input=frommessage)
-
+            # answer = predict_message(frommessage) # 生成AIにメッセージを投げて、返信を受け取る
+            # コードブロック判定（例: ```で囲まれているか）
+            is_code = bool(re.search(r"```[\s\S]+?```", answer))
+        except Exception as e:
+            answer = str(e)
             # 生成AIの感情を判定
             # airesponse = comprehend.detect_sentiment(Text=answer, LanguageCode='ja')
             # aisentiment_score = airesponse['SentimentScore']
-
-        except Exception as e:
-            answer = str(e)
-            
-        # 生成AIの感情を読み取る
+        is_code = bool(re.search(r"```[\s\S]+?```", answer))
         voice.pollytext = answer
-        answer = answer.replace('\n','<br>')
+        answer_html = answer.replace('\n','<br>') if not is_code else answer
         aiface = getaiface(aisentiment_score)
 
-        dict = {"answer": answer, # 回答
-                "aiface": aiface}  # aiメッセージの気分
+        dict = {
+            "answer": answer_html,
+            "aiface": aiface,
+            "is_code": is_code
+        }
     return json.dumps(dict, ensure_ascii=False)
 
 if __name__=='__main__':
