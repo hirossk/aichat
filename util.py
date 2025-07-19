@@ -27,10 +27,10 @@ def getsentimentscore(sentiment_score):
 
 def printout(w,posi,nega,neu,mix):
     print(w)
-    print("  Positive = ", posi)
-    print("  Negative = ", nega)
-    print("  Neutral = ", neu)
-    print("  Mixed = ", mix)
+    print("  前向きさ(Positive) = {:.2f}".format(posi))
+    print("  後ろ向き(Negative) = {:.2f}".format(nega))
+    print("  中立的(Neutral) = {:.2f}".format(neu))
+    print("  入り組んだ勘定(Mixed) = {:.2f}".format(mix))
 
 # Simple exception class
 class InvalidUsage(Exception):
