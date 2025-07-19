@@ -30,7 +30,7 @@ def printout(w,posi,nega,neu,mix):
     print("  前向きさ(Positive) = {:.2f}".format(posi))
     print("  後ろ向き(Negative) = {:.2f}".format(nega))
     print("  中立的(Neutral) = {:.2f}".format(neu))
-    print("  入り組んだ勘定(Mixed) = {:.2f}".format(mix))
+    print("  入り組んだ気持ち(Mixed) = {:.2f}".format(mix))
 
 # Simple exception class
 class InvalidUsage(Exception):
