@@ -9,15 +9,76 @@ from langchain_core.runnables import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 import re
 from uuid import uuid4
+import glob
+from PyPDF2 import PdfReader
+
+# PDFファイルを読み込んで抽象化する関数
+def load_pdf_knowledge():
+    pdf_files = glob.glob("files/*.pdf")
+    knowledge = ""
+    for pdf_path in pdf_files:
+        try:
+            reader = PdfReader(pdf_path)
+            text = ""
+            for page in reader.pages:
+                text += page.extract_text()
+            knowledge += f"\n\n[{os.path.basename(pdf_path)}の内容]\n{text}\n"
+        except Exception as e:
+            print(f"PDF読み込みエラー ({pdf_path}): {e}")
+    return knowledge
+
+# 起動時にPDFを読み込み
+pdf_knowledge = load_pdf_knowledge()
+
 # セッションに一意のIDを割り当てて、チャット履歴を保持
 session_id = str(uuid4())
 history = ChatMessageHistory()
+
 # LLMの定義 Anthropic(アンスロピック)の生成AI Claude（クロード）を利用します
-llm = ChatBedrock(model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",model_kwargs={"max_tokens": 1000,})
+# Extended Thinking（推論プロセス）を有効化
+llm = ChatBedrock(
+    model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
+    region_name="us-east-1",
+    model_kwargs={
+        "temperature": 0.7,
+        "max_tokens": 4096
+    }
+)
 conversation = RunnableWithMessageHistory( runnable=llm, get_session_history=lambda session_id: history,)
+
 def predict_message(message):
-    return conversation.invoke( {"input": message}, config={"configurable": {"session_id": "default"}}
-    ).content
+    # PDFの知識をプロンプトに含める
+    if pdf_knowledge:
+        enhanced_message = f"{pdf_knowledge}\n\nサイバーズについて質問をされた場合に限っては上記の知識を参考にして答えてください。ほかの日常会話については上記知識とは関係なくやり取りをしてください。\n\n質問: {message}"
+    else:
+        enhanced_message = message
+
+    response = conversation.invoke(
+        {"input": enhanced_message},
+        config={"configurable": {"session_id": "default"}}
+    )
+
+    # 推論プロセスを抽出
+    thinking_content = ""
+    answer_content = ""
+
+    if hasattr(response, 'content'):
+        # contentがリストの場合（複数のコンテンツブロック）
+        if isinstance(response.content, list):
+            for block in response.content:
+                if isinstance(block, dict):
+                    if block.get('type') == 'thinking':
+                        thinking_content = block.get('thinking', '')
+                    elif block.get('type') == 'text':
+                        answer_content = block.get('text', '')
+        # contentが文字列の場合
+        else:
+            answer_content = response.content
+
+    return {
+        "thinking": thinking_content,
+        "answer": answer_content
+    }
 
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
@@ -58,27 +119,36 @@ def callfromajax():
 @app.route("/response_ai", methods = ["POST"])
 def responseai():
     aisentiment_score = None
+    thinking = ""
     if request.method == "POST":
         try:
-                        # answerには返信用メッセージが格納されます。
             answer = "こんにちは" # frommessage
-            # answer = predict_message(frommessage) # 生成AIにメッセージを投げて、返信を受け取る
+            # 生成AIにメッセージを投げて、返信を受け取る
+            result = predict_message(frommessage)
+
+            # 推論プロセスと回答を取得
+            thinking = result.get("thinking", "")
+            answer = result.get("answer", "")
+
             # コードブロック判定（例: ```で囲まれているか）
             is_code = bool(re.search(r"```[\s\S]+?```", answer))
         except Exception as e:
             answer = str(e)
+            is_code = False
             # 生成AIの感情を判定
             # airesponse = comprehend.detect_sentiment(Text=answer, LanguageCode='ja')
             # aisentiment_score = airesponse['SentimentScore']
-        is_code = bool(re.search(r"```[\s\S]+?```", answer))
+
         voice.pollytext = answer
         answer_html = answer.replace('\n','<br>') if not is_code else answer
+        thinking_html = thinking.replace('\n','<br>') if thinking else ""
         aiface = getaiface(aisentiment_score)
 
         dict = {
             "answer": answer_html,
             "aiface": aiface,
-            "is_code": is_code
+            "is_code": is_code,
+            "thinking": thinking_html
         }
     return json.dumps(dict, ensure_ascii=False)
 
