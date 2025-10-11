@@ -15,7 +15,7 @@ message風フキダシ
     padding: 10px 0;
     /* 背景色はこちらで変更できます */
     background: var(--talk-color);
-    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "Helvetica Neue", "Lucida Sans Unicode", "Arial";
+    font-family: "Segoe UI", "Arial", "Helvetica Neue", "Meiryo", sans-serif;
     font-size: 16px;
     color: #333;
     line-height: 1.4;
@@ -34,6 +34,7 @@ message風フキダシ
     overflow-wrap: break-word;
     clear: both;
     box-sizing: content-box;
+    font-family: "Segoe UI", "Arial", "Helvetica Neue", "Meiryo", sans-serif;
     /*はてな用*/
 }
 

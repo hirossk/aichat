@@ -1,11 +1,9 @@
-from flask import Flask,render_template,request, send_file,jsonify
+from flask import Flask,render_template,request,session
 import json
 import boto3
-from util import getface,getaiface
+from util import getface, getaiface, predict_message
 import os
-from langchain_aws import BedrockLLM,ChatBedrock
 import voice
-from langchain_core.runnables import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 import re
 from uuid import uuid4
@@ -34,51 +32,13 @@ pdf_knowledge = load_pdf_knowledge()
 session_id = str(uuid4())
 history = ChatMessageHistory()
 
-# LLMの定義 Anthropic(アンスロピック)の生成AI Claude（クロード）を利用します
-# Extended Thinking（推論プロセス）を有効化
-llm = ChatBedrock(
-    model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
-    region_name="us-east-1",
-    model_kwargs={
-        "temperature": 0.7,
-        "max_tokens": 4096
-    }
+
+# Bedrockクライアントの初期化
+bedrock_runtime = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='ap-northeast-1'  # 利用可能なリージョンに変更してください
 )
-conversation = RunnableWithMessageHistory( runnable=llm, get_session_history=lambda session_id: history,)
 
-def predict_message(message):
-    # PDFの知識をプロンプトに含める
-    if pdf_knowledge:
-        enhanced_message = f"{pdf_knowledge}\n\nサイバーズについて質問をされた場合に限っては上記の知識を参考にして答えてください。ほかの日常会話については上記知識とは関係なくやり取りをしてください。\n\n質問: {message}"
-    else:
-        enhanced_message = message
-
-    response = conversation.invoke(
-        {"input": enhanced_message},
-        config={"configurable": {"session_id": "default"}}
-    )
-
-    # 推論プロセスを抽出
-    thinking_content = ""
-    answer_content = ""
-
-    if hasattr(response, 'content'):
-        # contentがリストの場合（複数のコンテンツブロック）
-        if isinstance(response.content, list):
-            for block in response.content:
-                if isinstance(block, dict):
-                    if block.get('type') == 'thinking':
-                        thinking_content = block.get('thinking', '')
-                    elif block.get('type') == 'text':
-                        answer_content = block.get('text', '')
-        # contentが文字列の場合
-        else:
-            answer_content = response.content
-
-    return {
-        "thinking": thinking_content,
-        "answer": answer_content
-    }
 
 #文章解析のエンジンへの接続
 comprehend=boto3.client('comprehend', region_name='ap-northeast-1')
@@ -121,10 +81,10 @@ def responseai():
     aisentiment_score = None
     thinking = ""
     if request.method == "POST":
+        answer = "こんにちは"
         try:
-            answer = "こんにちは" # frommessage
             # 生成AIにメッセージを投げて、返信を受け取る
-            # result = predict_message(frommessage)
+            # result = predict_message(frommessage, session)
 
             # 推論プロセスと回答を取得
             # thinking = result.get("thinking", "")
