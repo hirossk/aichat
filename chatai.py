@@ -124,11 +124,11 @@ def responseai():
         try:
             answer = "こんにちは" # frommessage
             # 生成AIにメッセージを投げて、返信を受け取る
-            result = predict_message(frommessage)
+            # result = predict_message(frommessage)
 
             # 推論プロセスと回答を取得
-            thinking = result.get("thinking", "")
-            answer = result.get("answer", "")
+            # thinking = result.get("thinking", "")
+            # answer = result.get("answer", "")
 
             # コードブロック判定（例: ```で囲まれているか）
             is_code = bool(re.search(r"```[\s\S]+?```", answer))
